@@ -11,20 +11,25 @@ class Product(models.Model):
                                 verbose_name='Цена')
     quantity = models.PositiveIntegerField(null=False, verbose_name='Количество')
     description = models.TextField(null=False, blank=True)
-    image = models.ImageField(blank=True, null=False, upload_to='images/')
-    slug = models.SlugField(unique=True, blank=False)
-    reviews = models.ManyToManyField('Review', blank=True, related_name='products')
 
     def __str__(self):
         return self.title
-
-    def get_absolute_url(self):
-        return reverse('product', kwargs={'slug': self.slug})
 
 
 class Review(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
+    rating = models.PositiveIntegerField(null=True)
+    product = models.ForeignKey('Product', null=True, related_name='products',
+                                on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+
+
+class ProductPhoto(models.Model):
+    image = models.ImageField(blank=True, null=False, upload_to='images/')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.image.name
