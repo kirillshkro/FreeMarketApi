@@ -1,5 +1,5 @@
+from django.contrib.auth.models import User
 from django.db import models
-from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -11,6 +11,7 @@ class Product(models.Model):
                                 verbose_name='Цена')
     quantity = models.PositiveIntegerField(null=False, verbose_name='Количество')
     description = models.TextField(null=False, blank=True)
+    order = models.ManyToManyField('Order')
 
     def __str__(self):
         return self.title
@@ -33,3 +34,16 @@ class ProductPhoto(models.Model):
 
     def __str__(self):
         return self.image.name
+
+
+class Order(models.Model):
+    user = models.ForeignKey('MarketUser', on_delete=models.CASCADE)
+    comment = models.CharField(null=True, max_length=250)
+
+    def __str__(self):
+        return f'Order number: {self.pk}'
+
+
+class MarketUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
+    phone = models.CharField(max_length=15, blank=False)
