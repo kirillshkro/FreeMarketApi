@@ -11,6 +11,7 @@ class Product(models.Model):
                                 verbose_name='Цена')
     quantity = models.PositiveIntegerField(null=False, verbose_name='Количество')
     description = models.TextField(null=False, blank=True)
+    is_selected = models.BooleanField(null=True, default=False)
     order = models.ManyToManyField('Order')
 
     def __str__(self):
@@ -39,6 +40,7 @@ class ProductPhoto(models.Model):
 class Order(models.Model):
     user = models.ForeignKey('MarketUser', on_delete=models.CASCADE)
     comment = models.CharField(null=True, max_length=250)
+    total_sum = models.DecimalField(max_digits=8, decimal_places=2, blank=True)
 
     def __str__(self):
         return f'Order number: {self.pk}'
