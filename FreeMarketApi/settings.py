@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(environ.get('DEBUG', default=True)))
+DEBUG = bool(environ.get('DEBUG'))
 
 ALLOWED_HOSTS = []
 
@@ -58,8 +58,6 @@ ROOT_URLCONF = 'FreeMarketApi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
