@@ -26,7 +26,7 @@ SECRET_KEY = environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(environ.get('DEBUG'))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'FreeMarketApi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': environ.get('SQL_DATABASE', BASE_DIR / 'db.sqlite3'),
+        'USER': environ.get('SQL_USER', 'user'),
+        'PASSWORD': environ.get('SQL_PASSWORD', 'password'),
+        'HOST': environ.get('SQL_HOST', 'localhost'),
+        'PORT': environ.get('SQL_PORT', '5432')
     }
 }
 
