@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.9'
 
 services:
   web:
@@ -8,8 +8,8 @@ services:
     command: uwsgi --ini=uwsgi.ini
     volumes:
     - ./:/var/www/freemarketapi/
-    ports:
-    - "8000:8000"
+    expose:
+      - "8000"
     env_file:
       - ./.env
     depends_on:
@@ -23,18 +23,13 @@ services:
       - web
 
   db:
-    image: postgres:13.6-bullseye
+    image: postgres:13.6-alpine
     environment:
-      POSTGRES_DB: "django_prod"
-      POSTGRES_USER: "django"
-      POSTGRES_PASSWORD: "prod_django_8734"
-      PGDATA: "/var/lib/postgresql/data/pgdata/"
+      - POSTGRES_DB=django_prod
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=prod_django_8734
     volumes:
     - postgres_data:/var/lib/postgresql/data/
 
-    ports:
-    - "5432:5432"
-
 volumes:
   postgres_data:
-
